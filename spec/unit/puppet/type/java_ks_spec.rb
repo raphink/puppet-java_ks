@@ -25,9 +25,9 @@ describe Puppet::Type.type(:java_ks) do
     Puppet::Type.type(:java_ks).new(@app_example_com)[:ensure].should == :present
   end
 
-  describe 'when validating arttibutes' do
+  describe 'when validating attributes' do
 
-    [:name, :target, :private_key, :certificate, :password, :trustcacerts].each do |param|
+    [:name, :target, :private_key, :certificate, :password, :password_file, :trustcacerts].each do |param|
       it "should have a #{param} parameter" do
         Puppet::Type.type(:java_ks).attrtype(param).should == :param
       end
