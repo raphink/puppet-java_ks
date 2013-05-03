@@ -73,6 +73,13 @@ describe Puppet::Type.type(:java_ks) do
     it 'should have :false value to :trustcacerts when parameter not provided' do
       Puppet::Type.type(:java_ks).new(jks_resource)[:trustcacerts].should == :false
     end
+
+    it 'should fail if both :password and :password_file are provided' do
+      jks = jks_resource.dup
+      expect {
+        jks[:password_file] = '/path/to/password_file'
+      }.to raise_error(Puppet::Error, /You must pass either/)
+    end
   end
 
   describe 'when ensure is set to latest' do

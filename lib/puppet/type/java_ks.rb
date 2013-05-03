@@ -152,4 +152,10 @@ module Puppet
       ]
     end
   end
+
+  validate do
+    if value(:password) and value(:password_file)
+      self.fail "You must pass either 'password' or 'password_file', not both."
+    end
+  end
 end
