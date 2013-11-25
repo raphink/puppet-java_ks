@@ -182,9 +182,10 @@ Puppet::Type.type(:java_ks).provide(:keytool) do
   def file_path(path)
     return path unless path and path.start_with? 'puppet://'
 
-    served_file = Puppet::FileServing::Metadata.indirection.find(path, :environment => @resource.catalog.environment)
-    self.fail "Could not retrieve information for #{path}" unless served_file
-    served_file.full_path
+    file = Tempfile.new('truc')
+    f = Puppet::Type.type(:file).new(:name => file.path, :source => path, :ensure => :present)
+    f.retrieve
+    file.path
   end
 
   def run_command(cmd, target=false, stdinfile=false, env={})
