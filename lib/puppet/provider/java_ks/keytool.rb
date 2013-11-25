@@ -182,7 +182,8 @@ Puppet::Type.type(:java_ks).provide(:keytool) do
   def file_path(path)
     return path unless path and path.start_with? 'puppet://'
 
-    served_file = Puppet::FileServing::Metadata.indirection.find(path, :environment => @resource.catalog.environment)
+    opts = @resource.catalog.respond_to?(:environment) ? { :environment => @resource.catalog.environment } : nil
+    served_file = Puppet::FileServing::Metadata.indirection.find(path, opts)
     self.fail "Could not retrieve information for #{path}" unless served_file
     served_file.full_path
   end
